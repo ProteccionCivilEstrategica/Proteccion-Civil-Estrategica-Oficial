@@ -48,69 +48,107 @@ window.addEventListener("scroll", function () {
 });
 
 
-
 /**
- * SLIDER
+ * SLIDER AUTOMÁTICO CON BUCLE INFINITO (CLON)
  */
 
 const sliders = document.querySelectorAll("[data-slider]");
 
 const initSlider = function(currentSlider) {
-
-  const sldierContainer = currentSlider.querySelector("[data-slider-container]");
-  const sliderPrevBtn = currentSlider.querySelector("[data-slider-prev]");
-  const sliderNextBtn = currentSlider.querySelector("[data-slider-next]");
+  const sliderContainer = currentSlider.querySelector("[data-slider-container]");
+  const sliderImages = sliderContainer.children;
+  
+  // Guardamos la cantidad original de imágenes antes de clonar
+  const originalTotalSlides = sliderImages.length; 
+  
+  // 1. CLONAR LA PRIMERA IMAGEN
+  // Esto agrega una copia de la primera imagen al final de la lista
+  const firstSlideClone = sliderImages[0].cloneNode(true);
+  sliderContainer.appendChild(firstSlideClone);
 
   let currentSlidePos = 0;
+  const intervalTime = 3000; // Tiempo entre cada cambio (3 segundos)
+  const transitionTime = 1000; // Tiempo que tarda la animación en moverse (1 segundo)
+  let slideInterval;
 
-  const moveSliderItem = function () {
-    sldierContainer.style.transform = `translateX(-${sldierContainer.children[currentSlidePos].offsetLeft}px)`;
+  // Función para mover el slider
+  const moveSliderItem = function (useTransition = true) {
+    if (useTransition) {
+      // Activamos la animación suave
+      sliderContainer.style.transition = `transform ${transitionTime}ms ease-in-out`;
+    } else {
+      // Desactivamos la animación para el "salto secreto"
+      sliderContainer.style.transition = 'none';
+    }
+    
+    // Movemos el contenedor basándonos en la posición de la imagen actual
+    // Usamos sliderImages[currentSlidePos] para asegurar que el ancho sea correcto
+    const slideWidth = sliderImages[0].clientWidth; // Asumiendo que todas miden lo mismo
+    sliderContainer.style.transform = `translateX(-${currentSlidePos * slideWidth}px)`;
   }
 
   /**
-   * NEXT SLIDE
+   * NEXT SLIDE LÓGICO
    */
-
   const slideNext = function () {
-    const slideEnd = currentSlidePos >= sldierContainer.childElementCount - 1;
+    currentSlidePos++; // Avanzamos a la siguiente
+    moveSliderItem(true); // Movemos con animación
 
-    if (slideEnd) {
-      currentSlidePos = 0;
-    } else {
-      currentSlidePos++;
+    // VERIFICACIÓN DEL BUCLE
+    // Si hemos llegado al clon (que está en la posición igual a originalTotalSlides)
+    if (currentSlidePos === originalTotalSlides) {
+      
+      // Esperamos exactamente lo que dura la transición para hacer el cambio
+      setTimeout(() => {
+        // 1. Quitamos la animación
+        // 2. Regresamos el contador a 0 (la imagen real original)
+        // 3. Movemos el slider instantáneamente
+        currentSlidePos = 0;
+        moveSliderItem(false); 
+      }, transitionTime); 
     }
-
-    moveSliderItem();
   }
-
-  sliderNextBtn.addEventListener("click", slideNext);
 
   /**
-   * PREVIOUS SLIDE
+   * Inicia el intervalo
    */
-
-   const slidePrev = function () {
-
-    if (currentSlidePos <= 0) {
-      currentSlidePos = sldierContainer.childElementCount - 1;
-    } else {
-      currentSlidePos--;
-    }
-
-    moveSliderItem();
+  const startAutoSlide = function() {
+    // Evitamos múltiples intervalos si ya existe uno
+    if (slideInterval) clearInterval(slideInterval);
+    slideInterval = setInterval(slideNext, intervalTime);
   }
 
-  sliderPrevBtn.addEventListener("click", slidePrev);
-
-  const dontHaveExtraItem = sldierContainer.childElementCount <= 1;
-  if (dontHaveExtraItem) {
-    sliderNextBtn.style.display = "none";
-    sliderPrevBtn.style.display = "none";
+  /**
+   * Detiene el intervalo
+   */
+  const stopAutoSlide = function() {
+    clearInterval(slideInterval);
   }
 
+  // Iniciar solo si hay imágenes
+  if (originalTotalSlides > 1) {
+    // Ajuste inicial de estilos para asegurar que el CSS no interfiera
+    sliderContainer.style.display = 'flex'; 
+    
+    startAutoSlide();
+
+    // Eventos para pausar
+    currentSlider.addEventListener('mouseenter', stopAutoSlide);
+    currentSlider.addEventListener('mouseleave', startAutoSlide);
+    
+    // Eventos táctiles
+    currentSlider.addEventListener('touchstart', stopAutoSlide);
+    currentSlider.addEventListener('touchend', function() {
+      setTimeout(startAutoSlide, 3000);
+    });
+  }
 }
 
-for (let i = 0, len = sliders.length; i < len; i++) { initSlider(sliders[i]); }
+// Inicializar todos los sliders
+for (let i = 0, len = sliders.length; i < len; i++) { 
+  initSlider(sliders[i]); 
+}
+
 
 
 
