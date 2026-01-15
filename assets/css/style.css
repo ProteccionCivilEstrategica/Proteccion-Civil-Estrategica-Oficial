@@ -437,15 +437,20 @@ body.nav-active { overflow: hidden; }
   position: relative;
   display: flex;
   align-items: flex-start;
-  gap: 8px;
+  gap: 0; /* <--- IMPORTANTE: Estaba en 8px, cámbialo a 0 */
   transition: var(--transition-2);
 }
 
 .hero .slider-item {
   min-width: 100%;
   width: 100%;
+  /* Agregamos esto para asegurar que el navegador no las encoja */
+  flex-shrink: 0; 
   border-radius: var(--radius-10);
   overflow: hidden;
+  /* Asegura que no haya márgenes extraños */
+  margin: 0;
+  padding: 0;
 }
 
 .hero .slider-btn {
