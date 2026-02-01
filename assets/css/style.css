@@ -309,10 +309,10 @@ body.nav-active { overflow: hidden; }
   top: 50%; 
   left: 0;
   transform: translateY(-50%); 
-  
   height: 75px;
   width: auto;  
   max-width: none;
+  filter: drop-shadow(0 0 3px rgba(255, 255, 255, 0.8));
 }
 
 .nav-open-btn {
@@ -1459,6 +1459,7 @@ CAPACITACIONES, ASESORIAS Y SERVICIOS
     margin: 0 auto;
   }
 }
+
 
 
 
