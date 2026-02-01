@@ -764,7 +764,7 @@ body.nav-active { overflow: hidden; }
 }
 
 .footer-brand .logo img {
-   filter: brightness(0) invert(1); 
+  filter: drop-shadow(0 0 3px rgba(255, 255, 255, 0.8));
 }
 
 .footer .social-list { color: var(--white); }
@@ -1459,6 +1459,7 @@ CAPACITACIONES, ASESORIAS Y SERVICIOS
     margin: 0 auto;
   }
 }
+
 
 
 
