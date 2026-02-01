@@ -763,6 +763,10 @@ body.nav-active { overflow: hidden; }
   max-width: none;
 }
 
+.footer-brand .logo img {
+   filter: brightness(0) invert(1); 
+}
+
 .footer .social-list { color: var(--white); }
 
 .footer-list-title {
@@ -1455,6 +1459,7 @@ CAPACITACIONES, ASESORIAS Y SERVICIOS
     margin: 0 auto;
   }
 }
+
 
 
 
