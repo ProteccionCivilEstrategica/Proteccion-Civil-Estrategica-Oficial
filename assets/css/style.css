@@ -296,24 +296,23 @@ body.nav-active { overflow: hidden; }
 .header .logo-light,
 .header.active .logo-dark { display: block; }
 
-/* 1. Preparamos el contenedor del logo (la etiqueta <a>) */
 .header .logo {
-  position: relative; /* Para que la imagen se posicione respecto a esto */
+  position: relative; 
   display: block;
-  width: 180px; /* RESERVA espacio a lo ancho para que no se encime con el menú */
-  height: 24px; /* MANTENEMOS la altura original para no agrandar la barra azul */
+  width: 180px;
+  height: 24px; 
 }
 
-/* 2. Hacemos la magia con la imagen */
+
 .header .logo img {
-  position: absolute; /* Esto la saca del flujo: puede crecer sin empujar nada */
+  position: absolute; 
   top: 50%; 
   left: 0;
-  transform: translateY(-50%); /* Esto la centra verticalmente perfecta */
+  transform: translateY(-50%); 
   
-  height: 75px; /* ¡AQUÍ ajustas el tamaño que quieras! (Prueba 60px, 70px, 80px) */
-  width: auto;  /* Mantiene la proporción para que no se deforme */
-  max-width: none; /* Asegura que nada la limite */
+  height: 135px;
+  width: auto;  
+  max-width: none;
 }
 
 .nav-open-btn {
@@ -1438,4 +1437,5 @@ CAPACITACIONES, ASESORIAS Y SERVICIOS
     margin: 0 auto;
   }
 }
+
 
