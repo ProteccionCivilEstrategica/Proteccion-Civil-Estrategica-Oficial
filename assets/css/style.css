@@ -310,7 +310,7 @@ body.nav-active { overflow: hidden; }
   left: 0;
   transform: translateY(-50%); 
   
-  height: 135px;
+  height: 75px;
   width: auto;  
   max-width: none;
 }
@@ -1437,5 +1437,6 @@ CAPACITACIONES, ASESORIAS Y SERVICIOS
     margin: 0 auto;
   }
 }
+
 
 
